@@ -1,0 +1,10 @@
+DATA_DIR : 'C:\Users\ahoun\Documents\Université\MAG 3\Projet Mignot\plane_classification_projet\data\dataset\data'
+MODELS_DIR: 'C:\Users\ahoun\Documents\Université\MAG 3\Projet Mignot\plane_classification_projet\planes\models'
+WEIGHTS_DIR: 'C:\Users\ahoun\Documents\Université\MAG 3\Projet Mignot\plane_classification_projet\planes\weights'
+
+TARGET_NAME: manufacturer
+
+
+IMAGE_WIDTH : 192
+IMAGE_HEIGHT : 192
+IMAGE_DEPTH : 3

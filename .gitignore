@@ -74,8 +74,9 @@ docs/_build/
 # PyBuilder
 target/
 
-# Jupyter Notebook
+# Jupyter 
 .ipynb_checkpoints
+*/.ipynb_checkpoints/*
 
 # IPython
 profile_default/
@@ -127,3 +128,16 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Model saved
+*.h5
+*.p
+
+# Model weights
+*.hdf5
+
+# Application logs
+*/logs*/*
+
+# Skip data folders
+data/
