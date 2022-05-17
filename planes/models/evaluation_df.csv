@@ -1,0 +1,5 @@
+,Model,Input shape,Accuracy,Precision,Recall
+0,CNN neural network,192x192x3,51.01%,44.09%,54.55%
+1,SVM,192x192x3,28.62%,23.29%,29.31%
+2,Xception,192x192x3,63.67%,63.95%,68.80%
+3,VGG19,192x192x3,77.62%,76.15%,82.60%
