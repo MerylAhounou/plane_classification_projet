@@ -23,10 +23,10 @@ from skimage.io import imread
 #---------------------------------------------------------------------------------------
 # Loading files
 #---------------------------------------------------------------------------------------
-yaml_file = open("../../notebooks/app.yaml", 'r')
+yaml_file = open("notebooks/app.yaml", 'r')
 yaml_content = load(yaml_file, Loader=Loader)
 
-evaluation_df = pd.read_csv('../models/evaluation_df.csv', header=0, names=["Model", "Input shape", "Accuracy", "Precision", "Recall"])
+evaluation_df = pd.read_csv('planes/models/evaluation_df.csv', header=0, names=["Model", "Input shape", "Accuracy", "Precision", "Recall"])
 
 
 #---------------------------------------------------------------------------------------
@@ -39,8 +39,8 @@ TARGET_NAME_TXT = f'images_{TARGET_NAME}_train.txt'
 
 
 
-PATH_MODEL = '../models/' + TARGET_NAME + '.h5'
-PATH_CLASSES = '../models/' + TARGET_NAME + '_classes.txt'
+PATH_MODEL = 'planes/models/' + TARGET_NAME + '.h5'
+PATH_CLASSES = 'planes/models/' + TARGET_NAME + '_classes.txt'
 
 IMAGE_WIDTH = yaml_content["IMAGE_WIDTH"]
 IMAGE_HEIGHT = yaml_content["IMAGE_HEIGHT"]
@@ -49,7 +49,7 @@ IMAGE_DEPTH = yaml_content["IMAGE_DEPTH"]
 
 
 list_models =[]
-for model in os.listdir('../models'):
+for model in os.listdir('planes/models'):
     if '.' in model:
         list_models.append(model)
         
@@ -67,7 +67,7 @@ def load_image(path):
     """
     return plt.imread(path)
 
-@st.cache(ttl = 24*3600, allow_output_mutation=True, max_entries=5)
+@st.cache(ttl = 12*3600, allow_output_mutation=True, max_entries=5)
 def load_model(path, type_model):
     """Load tf/Keras model for prediction
     Parameters
@@ -111,7 +111,7 @@ def predict_image(path, model, path_classes, type_model):
         return predicted_classes, predicted_prob, prediction_vector,name_classes
     elif type_model ==1:
         name_model_pca = [x for x in list_models if "pca" in x][0]
-        PATH_MODEL_PCA = f'../models/{name_model_pca}'
+        PATH_MODEL_PCA = f'planes/models/{name_model_pca}'
         model_pca = load_model(PATH_MODEL_PCA, type_model)
         prob = model.predict_proba(model_pca.transform(pd.DataFrame(np.array([(resize(imread(path, plugin='matplotlib'),\
                                           (IMAGE_WIDTH, IMAGE_HEIGHT))).flatten()]))))
@@ -126,7 +126,7 @@ def predict_image(path, model, path_classes, type_model):
 #---------------------------------------------------------------------------------------
 # Config page
 #---------------------------------------------------------------------------------------
-img = Image.open("airbus-min.png")
+img = Image.open("planes/app/airbus-min.png")
 st.set_page_config(
      page_title="Plan classification App",
     #  page_icon=":shark",
@@ -172,7 +172,8 @@ col1, col2 = st.columns(2)
 with col1:
   add_radio = st.radio(
           "Quel modèle voulez-vous utilisez?",
-      ("CNN neural network", "SVM", "Xception", "VGG19")
+      ("CNN neural network", "VGG19")
+#       ("CNN neural network", "SVM", "Xception", "VGG19")
       )
   predict_btn = st.button('Identifier', disabled=(uploaded_files is None))
   
@@ -200,7 +201,7 @@ elif add_radio =="VGG19":
   name_model = [x for x in list_models if "vgg19" in x][0]
   type_model = 0
 
-PATH_MODEL = f'../models/{name_model}'
+PATH_MODEL = f'planes/models/{name_model}'
 
 model = load_model(PATH_MODEL, type_model)
 
